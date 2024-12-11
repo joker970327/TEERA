@@ -6,7 +6,7 @@
     "configurations": [
         {
             "name": "daa-BN-debug",
-            "preLaunchTask": "daa_BN-build",
+            "preLaunchTask": "daa-BN-build",
             "type": "cppdbg",
             "request": "launch",
             "args": [],
