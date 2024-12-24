@@ -79,4 +79,9 @@ struct PRL{
     PRLNode *tail;
 };
 
+struct public_PRL{
+    PRLNode *p;
+    uint32 cnt;
+};
+
 #endif

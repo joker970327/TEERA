@@ -1,6 +1,10 @@
 {
     "files.associations": {
         "iostream": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "*.tcc": "c",
+        "string": "c",
+        "string_view": "c",
+        "random": "cpp"
     }
 }
