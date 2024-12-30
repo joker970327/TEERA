@@ -1,16 +1,40 @@
 #ifndef EPID_VERIFIER
 #define EPID_VERIFIER
 
-#define MR_PAIRING_BN    // AES-128 or AES-192 security
-#define AES_SECURITY 128
-
-#include "pairing_3.h"
 #include "epid_type.h"
 
-void verifierCheckPRL(PRL *pRL, G3 *B, G3 *K);
-void verifierCheckSRL(GPK *gpk, char *m, Sigmai *sigmai, G3 *B, G3 *K);
+// #define MR_PAIRING_BN    // AES-128 or AES-192 security
+// #define AES_SECURITY 128
+
+
+// SigmaiNode
+struct Verifier_BK_SPK{
+    G3 B,K;
+    Big c,sf;
+};
+
+// platform & verifier & revoker
+struct Verifier_Sigma0{
+    G3 B,K;
+    G1 T;
+    Big c,sf,sx,sa,sb;
+};
+
+struct Verifier_Sigmai{
+    Verifier_BK_SPK *sigmai;
+    int cnt;
+};
+
+// platform & verifier & revoker
+struct Verifier_Sigma{
+    Verifier_Sigma0 *sigma0;
+    Verifier_Sigmai *sigmai;
+};
+
+int verifierCheckPRL(Public_PRL *pRL, G3 *B, G3 *K);
+int verifierCheckSRL(GPK *gpk, char *m, Verifier_Sigmai *sigmai, G3 *B, G3 *K);
 
 void verifierPreCom();
-void verifierVerify(GPK * gpk, char *m, PRL *pRL, Sigmai *sigmai, Sigma0 *sigma0);
+int verifierVerify(GPK * gpk, char *m, Public_PRL *pRL, Verifier_Sigmai *sigmai, Verifier_Sigma0 *sigma0);
 
 #endif

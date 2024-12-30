@@ -10,6 +10,7 @@ extern PFC pfc;  // initialise pairing-friendly curve
 
 typedef G1 G3;
 
+// public
 struct GPK{//群公钥
     Big p;
     G1 g1, h1, h2;
@@ -17,71 +18,24 @@ struct GPK{//群公钥
     G3 g3;
 };
 
-struct SK{
-    G1 A;
-    Big x,y,f;
-};
-
+// public
 struct PPK{
     G1 A;
     Big x,y;
 };
 
-struct CommC{
-    G1 C;
-    Big c,sf,sy1;
-};
-
-struct CRE{
-    G1 A;
-    Big x,y2;
-};
-
-struct BK{
+struct Public_SRLNode{
     G3 B,K;
-    BK *next;
 };
 
-struct SRL{
-    BK *head;
-    BK *tail;
+struct Public_SRL{
+    Public_SRLNode *sRLNode;
+    int cnt;
 };
 
-struct BK_SPK{
-    G3 B,K;
-    Big c,sf;
-    BK_SPK *next;
-};
-
-struct Sigma0{
-    G3 B,K;
-    G1 T;
-    Big c,sf,sx,sa,sb;
-};
-
-struct Sigmai{
-    BK_SPK *head;
-    BK_SPK *tail;
-};
-
-struct Sigma{
-    Sigma0 *sigma0;
-    Sigmai *sigmai;
-};
-
-struct PRLNode{
-    Big f;
-    PRLNode *next;
-};
-
-struct PRL{
-    PRLNode *head;
-    PRLNode *tail;
-};
-
-struct public_PRL{
-    PRLNode *p;
-    uint32 cnt;
+struct Public_PRL{
+    Big *f;
+    int cnt;
 };
 
 #endif
