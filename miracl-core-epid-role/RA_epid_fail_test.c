@@ -521,7 +521,7 @@ void failTest_3(){
     if(verifierVerify(&gpk, m, pRL, &verifierSigma.sigmai, &verifierSigma.sigma0)) exit(0);
 }
 
-int main(){
+int failtest_main(){
     // miracl *mip = get_mip();
     // time_t seed;
 

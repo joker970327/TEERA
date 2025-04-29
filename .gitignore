@@ -1,4 +1,5 @@
 .vscode/*
+c_bls12383/*
 
 # Prerequisites
 *.d
@@ -52,3 +53,7 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+miracl-core-daa/daa
+
+miracl-core-epid-role/epid-role

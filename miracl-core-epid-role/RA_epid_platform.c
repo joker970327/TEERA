@@ -9,11 +9,6 @@ Big y_1;
 void platformPreCom(GPK* gpk)
 {
     initiate();
-    // platformPFC = PFC(AES_SECURITY);
-    // platformPFC->precomp_for_power(pt1);
-    // platformPFC->precomp_for_power(pt2);
-    // platformPFC->precomp_for_power(pt3);
-    // platformPFC->precomp_for_power(pt4);
     pairing(&pt1,&gpk->g2,&gpk->g1);
 	pairing(&pt2,&gpk->g2,&gpk->h1);
 	pairing(&pt3,&gpk->g2,&gpk->h2);
@@ -22,12 +17,8 @@ void platformPreCom(GPK* gpk)
 
 void platformJoin_1(GPK *gpk, Platform_CommC* commC)
 {
-    // Big f;
-
     random_Big(sk.f);
     random_Big(y_1);
-    // platformPFC->random(f);
-    // platformPFC->random(y_1);
 
     // C的知识证明
     // CommC *commC = (CommC *)malloc(sizeof(CommC));
@@ -41,8 +32,6 @@ void platformJoin_1(GPK *gpk, Platform_CommC* commC)
     
     Big rf, ry1;
     G1 PoC;
-    // platformPFC->random(rf);
-    // platformPFC->random(ry1);
     random_Big(rf);
     random_Big(ry1);
     // PoC = platformPFC->mult(gpk->h1, rf) + platformPFC->mult(gpk->h2, ry1);

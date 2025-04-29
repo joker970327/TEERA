@@ -741,4 +741,9 @@ void display_Big(Big b){
     o.len+=MODBYTES;
     printf("        type: Big, size: %d\n        ",o.len);
     OCT_output(&o);
+    printf("\n");
+    BIG_384_58_output(b);
+    printf("\n");
+    BIG_384_58_rawoutput(b);
+    printf("\n");
 }

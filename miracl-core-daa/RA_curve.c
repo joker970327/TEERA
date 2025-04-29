@@ -75,14 +75,14 @@ void pairing(GT* gt, G2* g2, G1* g1){
 // RA-TODO: - implement multi_pairing
 // RA: 目前是根据 pair.c文件中的 multi-pairing部分的注释写的内容
 // 以下来自 bls_BLS12383.c/BLS_BLS12383_CORE_VERIFY()
-/*
+
 // Use new multi-pairing mechanism
-FP12_BLS12383 r[ATE_BITS_BLS12383];
-PAIR_BLS12383_initmp(r);
-PAIR_BLS12383_another_pc(r, G2_TAB, &D);
-PAIR_BLS12383_another(r, &PK, &HM);
-PAIR_BLS12383_miller(&v, r);
-*/
+// FP12_BLS12383 r[ATE_BITS_BLS12383];
+// PAIR_BLS12383_initmp(r);
+// PAIR_BLS12383_another_pc(r, G2_TAB, &D);
+// PAIR_BLS12383_another(r, &PK, &HM);
+// PAIR_BLS12383_miller(&v, r);
+
 void multi_pairing(int n, GT* gt, G2* g2, G1* g1){
     GT r[ATE_BITS];
     PAIR_initmp(r);
