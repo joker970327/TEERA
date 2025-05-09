@@ -65,7 +65,7 @@
 #define G1_add ECP_BLS12383_add
 #define G1_toOctet ECP_BLS12383_toOctet
 #define G1_get ECP_BLS12383_get
-#define G1_toOctet ECP_BLS12383_toOctet
+#define G1_fromOctet ECP_BLS12383_fromOctet
 #define G1_neg ECP_BLS12383_neg
 #define G1_equals ECP_BLS12383_equals
 // #define G1_sub ECP_BLS12383_sub
@@ -79,12 +79,15 @@
 #define G2_get ECP2_BLS12383_get
 #define G2_toOctet ECP2_BLS12383_toOctet
 #define G2_add ECP2_BLS12383_add
+#define G2_fromOctet ECP2_BLS12383_fromOctet
+#define G2_equals ECP2_BLS12383_equals
 
 #define GT_copy FP12_BLS12383_copy
 #define GT_mul FP12_BLS12383_mul
 #define GT_compow FP12_BLS12383_compow
 #define GT_toOctet FP12_BLS12383_toOctet
 #define GT_equals FP12_BLS12383_equals
+#define GT_fromOctet FP12_BLS12383_fromOctet
 
 #define FP_rand FP_BLS12383_rand
 #define FP_copy FP_BLS12383_copy
