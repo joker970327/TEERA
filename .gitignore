@@ -57,3 +57,5 @@ dkms.conf
 miracl-core-daa/daa
 
 miracl-core-epid-role/epid-role
+miracl-core-test/RA_epid_trans_test
+miracl-core-test/tmp.txt
