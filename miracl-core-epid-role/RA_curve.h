@@ -151,7 +151,7 @@ void hash_Sign_comm(Big c, Big order, G1* g1, G1* h1, G1* h2,
     G2* g2, G2* w, G1* B, G1* K, G1* T, G1* R1, GT* R2, Big nv);
 void hash_Sign_plus(Big c, Big ch, Big nt, char* message);
 void hash_SRLNode_epid(Big c, Big p, G1* g1, G2* g2, G1* g3, G1* h1, G1* h2,  
-    G2* w, G1* B, G1* K, G1* R, G1* B1,G1* K1,G1* Ri, char* message);
+    G2* w, G1* B, G1* K, G1* B1,G1* K1,G1* Ri, char* message);
 void hash_comm_epid(Big c, Big p, G1* g1, G2* g2, G1* g3, G1* h1, G1* h2,  
     G2* w, G1* C, G1* PoC);
 void hash_sigma_epid(Big c, Big p, G1* g1, G2* g2, G1* g3, G1* h1, G1* h2,  

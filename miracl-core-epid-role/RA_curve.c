@@ -454,7 +454,7 @@ void hash_Sign_plus(Big c, Big ch, Big nt, char* message){
     BIG_fromBytes(c,hh);
 }
 
-void hash_SRLNode_epid(Big c, Big p, G1* g1, G2* g2, G1* g3, G1* h1, G1* h2,  G2* w, G1* B, G1* K, G1* R, G1* B1,G1* K1,G1* Ri, char* message){
+void hash_SRLNode_epid(Big c, Big p, G1* g1, G2* g2, G1* g3, G1* h1, G1* h2,  G2* w, G1* B, G1* K, G1* B1,G1* K1,G1* Ri, char* message){
     hash sh;
     shs_init(&sh);
 
@@ -514,11 +514,6 @@ void hash_SRLNode_epid(Big c, Big p, G1* g1, G2* g2, G1* g3, G1* h1, G1* h2,  G2
     G1_copy(&tmp_G1,K);
     G1_toOctet(&K_o,&tmp_G1,false);
     for(i=0;i<K_o.len;i++)shs_process(&sh,K_o.val[i]);
-
-    octet R_o={0,sizeof(g1_s),g1_s};
-    G1_copy(&tmp_G1,R);
-    G1_toOctet(&R_o,&tmp_G1,false);
-    for(i=0;i<R_o.len;i++)shs_process(&sh,R_o.val[i]);
 
     octet B1_o={0,sizeof(g1_s),g1_s};
     G1_copy(&tmp_G1,B1);
@@ -741,9 +736,4 @@ void display_Big(Big b){
     o.len+=MODBYTES;
     printf("        type: Big, size: %d\n        ",o.len);
     OCT_output(&o);
-    printf("\n");
-    BIG_384_58_output(b);
-    printf("\n");
-    BIG_384_58_rawoutput(b);
-    printf("\n");
 }
