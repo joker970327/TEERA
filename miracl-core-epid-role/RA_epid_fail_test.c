@@ -10,20 +10,8 @@
 // PFC pfc(AES_SECURITY);
 
 void failTest_1(){
-    // cout << "【fail-test 1】: change message" << endl;
     printf("【fail-test 1】: change message\n");
-    // GPK *gpk = new GPK(); 
-    // PPK *ppk = new PPK();
 
-    // Public_PRL *pRL = new Public_PRL();
-    // Public_SRL *sRL = new Public_SRL();
-
-
-    // printf("Setup..\n");
-    // issuerSetup(gpk);
-    // platformPreCom();
-    // verifierPreCom();
-    // revokerPreCom(pRL,sRL);
 // Setup
     GPK gpk;
     PPK ppk;
@@ -46,28 +34,9 @@ void failTest_1(){
     if(ECP_BLS12383_isinf(&gpk.g3))printf("g3 is infinity\n");
 
 // Join
-    // cout << "Join.." << endl;
     printf("Join..\n");
-    // Platform_CommC *platformCommC = new Platform_CommC();
-    // Issuer_CommC *issuerCommC;
 
-    // Issuer_CRE *issuerCre = new Issuer_CRE();
-    // Platform_CRE *platformCre;
-
-    // // platform 生成 platformCommC
-    // platformJoin_1(gpk,platformCommC);
-    // // platform 发送 platformCommC 给 issuer
-    // // issuer 用 IssuerCommC 接收
-    // issuerCommC = (Issuer_CommC*)platformCommC;
-
-    // // issuer 生成 Issuer_CRE
-    // issuerJoin_2(gpk, issuerCommC, issuerCre);
-    // // issuer 发送 issuerCre 给 platform
-    // // platform 用 platformCre 接收
-    // platformCre = (Platform_CRE*)issuerCre;
-
-    // // 平台生成公私钥
-    // if(platformJoin_3(gpk, platformCre, ppk)) exit(0);
+    // 平台生成公私钥
     Platform_CommC platformCommC;
     platformJoin_1(&gpk,&platformCommC);
     // platform 发送 platformCommC 给 issuer
@@ -85,7 +54,6 @@ void failTest_1(){
     // issuer 发送 issuerCre 给 platform
     // platform 用 platformCre 接收
     Platform_CRE platformCre;
-    // &platformCre = (Platform_CRE*)&issuerCre;
     G1_copy(&platformCre.A,&issuerCre.A);
     BIG_copy(platformCre.x,issuerCre.x);
     BIG_copy(platformCre.y2,issuerCre.y2);
@@ -98,17 +66,6 @@ void failTest_1(){
     printSK();
 // change message.. 
 // Sign
-    // cout << "Sign.." << endl;
-    // printf("Sign..\n");
-    // char m[] = "Test message to be signed";
-
-    // Platform_Sigma *platformSigma = new Platform_Sigma();
-    // platformSigma->sigma0 = new Platform_Sigma0();
-    // platformSigma->sigmai = new Platform_Sigmai();
-    // platformSigma->sigmai->cnt = sRL->cnt;
-    // platformSigma->sigmai->sigmai = new Platform_BK_SPK[sRL->cnt];
-
-    // platformSign(gpk, m, sRL, platformSigma);
 
     printf("Sign..\n");
     char m[] = "Test message to be signed";
@@ -118,7 +75,6 @@ void failTest_1(){
 
     printPlatformSigma(&platformSigma);
 
-    // TODO：传输格式要注意做适配和更改
     // platform 发送 platformSigma 给 verifier
     // verifier 用 verifierSigma 接收，之后需要添加上m
     Verifier_Sigma verifierSigma;
@@ -139,36 +95,18 @@ void failTest_1(){
         BIG_copy(verifierSigma.sigmai.sigmai[i].sf,platformSigma.sigmai.sigmai[i].sf);
     }
 
-    // cout << "m: \"" << m <<"\"";
     printf("m: \"%s\"",m);
     m[0] = 't';
-    // cout<<" is changed into: \""<<m<<"\""<<endl;
     printf(" is changed into: \"%s\"\n",m);
 
 // Verify
-    // cout << "Verify.." << endl;
-    // Verifier_Sigma *verifierSigma = (Verifier_Sigma*)platformSigma;
-    // verifierVerify(gpk, m, pRL, verifierSigma->sigmai, verifierSigma->sigma0);
-
     printf("Verify..\n");
     verifierVerify(&gpk, m, pRL, &verifierSigma.sigmai, &verifierSigma.sigma0);
 }
 
 void failTest_2(){
-    // cout << "【fail-test 2】: revoke in sRL" << endl;
     printf("【fail-test 2】: revoke in sRL\n");
-    // GPK *gpk = new GPK(); 
-    // PPK *ppk = new PPK();
 
-    // Public_PRL *pRL = new Public_PRL();
-    // Public_SRL *sRL = new Public_SRL();
-
-
-    // printf("Setup..\n");
-    // issuerSetup(gpk);
-    // platformPreCom();
-    // verifierPreCom();
-    // revokerPreCom(pRL,sRL);
     GPK gpk;
     PPK ppk;
     Public_PRL *pRL = (Public_PRL*)malloc(sizeof(Public_PRL));
@@ -190,28 +128,17 @@ void failTest_2(){
     if(ECP_BLS12383_isinf(&gpk.g3))printf("g3 is infinity\n");
 
 // Join
-    // cout << "Join.." << endl;
     printf("Join..\n");
-    // Platform_CommC *platformCommC = new Platform_CommC();
-    // Issuer_CommC *issuerCommC;
 
-    // Issuer_CRE *issuerCre = new Issuer_CRE();
-    // Platform_CRE *platformCre;
+    // platform 生成 platformCommC
+    // platform 发送 platformCommC 给 issuer
+    // issuer 用 IssuerCommC 接收
 
-    // // platform 生成 platformCommC
-    // platformJoin_1(gpk,platformCommC);
-    // // platform 发送 platformCommC 给 issuer
-    // // issuer 用 IssuerCommC 接收
-    // issuerCommC = (Issuer_CommC*)platformCommC;
+    // issuer 生成 Issuer_CRE
+    // issuer 发送 issuerCre 给 platform
+    // platform 用 platformCre 接收
 
-    // // issuer 生成 Issuer_CRE
-    // issuerJoin_2(gpk, issuerCommC, issuerCre);
-    // // issuer 发送 issuerCre 给 platform
-    // // platform 用 platformCre 接收
-    // platformCre = (Platform_CRE*)issuerCre;
-
-    // // 平台生成公私钥
-    // if(platformJoin_3(gpk, platformCre, ppk)) exit(0);
+    // 平台生成公私钥
 
     Platform_CommC platformCommC;
     platformJoin_1(&gpk,&platformCommC);
@@ -230,7 +157,6 @@ void failTest_2(){
     // issuer 发送 issuerCre 给 platform
     // platform 用 platformCre 接收
     Platform_CRE platformCre;
-    // &platformCre = (Platform_CRE*)&issuerCre;
     G1_copy(&platformCre.A,&issuerCre.A);
     BIG_copy(platformCre.x,issuerCre.x);
     BIG_copy(platformCre.y2,issuerCre.y2);
@@ -243,16 +169,6 @@ void failTest_2(){
     printSK();
 // revoke in sRL
 // Sign
-    // cout << "Original Sign.." << endl;
-    // char m[] = "Test message to be signed";
-
-    // Platform_Sigma *platformSigma = new Platform_Sigma();
-    // platformSigma->sigma0 = new Platform_Sigma0();
-    // platformSigma->sigmai = new Platform_Sigmai();
-    // platformSigma->sigmai->cnt = sRL->cnt;
-    // platformSigma->sigmai->sigmai = new Platform_BK_SPK[sRL->cnt];
-
-    // platformSign(gpk, m, sRL, platformSigma);
 
     printf("Original Sign..\n");
     char m[] = "Test message to be signed";
@@ -262,7 +178,6 @@ void failTest_2(){
 
     printPlatformSigma(&platformSigma);
 
-    // TODO：传输格式要注意做适配和更改
     // platform 发送 platformSigma 给 verifier
     // verifier 用 verifierSigma 接收，之后需要添加上m
     Verifier_Sigma verifierSigma;
@@ -284,14 +199,8 @@ void failTest_2(){
     }
 
 // Verify
-    // cout << "Original Verify.." << endl;
-    // Verifier_Sigma *verifierSigma = (Verifier_Sigma*)platformSigma;
-    // verifierVerify(gpk, m, pRL, verifierSigma->sigmai, verifierSigma->sigma0);
 
 // sRL 撤销
-    // cout << "revoke in sRL.. "<<endl;
-    // Revoker_Sigma *revokerSigma = (Revoker_Sigma*)platformSigma;
-    // revokerRevokeSRL(gpk,pRL,sRL,m,revokerSigma);//里面有一次验证
     printf("revoke in sRL.. \n");
     Revoker_Sigma revokerSigma;
     G1_copy(&revokerSigma.sigma0.B,&platformSigma.sigma0.B);
@@ -314,15 +223,6 @@ void failTest_2(){
 
 
 // 再次签名
-    // cout << "Test Sign.." << endl;
-    // char tm[] = "Test message to be signed";
-    // Platform_Sigma *platformSigmaTest = new Platform_Sigma();
-    // platformSigmaTest->sigma0 = new Platform_Sigma0();
-    // platformSigmaTest->sigmai = new Platform_Sigmai();
-    // platformSigmaTest->sigmai->cnt = sRL->cnt;
-    // platformSigmaTest->sigmai->sigmai = new Platform_BK_SPK[sRL->cnt];
-
-    // platformSign(gpk, tm, sRL, platformSigmaTest);
 
     printf("Test Sign..\n");
     char tm[] = "Test message to be signed";
@@ -332,7 +232,6 @@ void failTest_2(){
 
     printPlatformSigma(&platformSigmaTest);
 
-    // TODO：传输格式要注意做适配和更改
     // platform 发送 platformSigma 给 verifier
     // verifier 用 verifierSigma 接收，之后需要添加上m
     Verifier_Sigma verifierSigmaTest;
@@ -354,29 +253,13 @@ void failTest_2(){
     }
 
 // Verify
-    // cout << "Test Verify.." << endl;
-    // Verifier_Sigma *verifierSigmaTest = (Verifier_Sigma*)platformSigmaTest;
-    // verifierVerify(gpk, tm, pRL, verifierSigmaTest->sigmai, verifierSigmaTest->sigma0);
     printf("Verify..\n");
     verifierVerify(&gpk, tm, pRL, &verifierSigmaTest.sigmai, &verifierSigmaTest.sigma0);
 
 }
 
 void failTest_3(){
-    // cout << "【fail-test 3】: revoke in pRL" << endl;
     printf("【fail-test 3】: revoke in pRL\n");
-    // GPK *gpk = new GPK(); 
-    // PPK *ppk = new PPK();
-
-    // Public_PRL *pRL = new Public_PRL();
-    // Public_SRL *sRL = new Public_SRL();
-
-
-    // printf("Setup..\n");
-    // issuerSetup(gpk);
-    // platformPreCom();
-    // verifierPreCom();
-    // revokerPreCom(pRL,sRL);
 
     GPK gpk;
     PPK ppk;
@@ -399,28 +282,17 @@ void failTest_3(){
     if(ECP_BLS12383_isinf(&gpk.g3))printf("g3 is infinity\n");
 
 // Join
-    // cout << "Join.." << endl;
     printf("Join..\n");
-    // Platform_CommC *platformCommC = new Platform_CommC();
-    // Issuer_CommC *issuerCommC;
 
-    // Issuer_CRE *issuerCre = new Issuer_CRE();
-    // Platform_CRE *platformCre;
+    // platform 生成 platformCommC
+    // platform 发送 platformCommC 给 issuer
+    // issuer 用 IssuerCommC 接收
 
-    // // platform 生成 platformCommC
-    // platformJoin_1(gpk,platformCommC);
-    // // platform 发送 platformCommC 给 issuer
-    // // issuer 用 IssuerCommC 接收
-    // issuerCommC = (Issuer_CommC*)platformCommC;
+    // issuer 生成 Issuer_CRE
+    // issuer 发送 issuerCre 给 platform
+    // platform 用 platformCre 接收
 
-    // // issuer 生成 Issuer_CRE
-    // issuerJoin_2(gpk, issuerCommC, issuerCre);
-    // // issuer 发送 issuerCre 给 platform
-    // // platform 用 platformCre 接收
-    // platformCre = (Platform_CRE*)issuerCre;
-
-    // // 平台生成公私钥
-    // if(platformJoin_3(gpk, platformCre, ppk)) exit(0);
+    // 平台生成公私钥
 
     Platform_CommC platformCommC;
     platformJoin_1(&gpk,&platformCommC);
@@ -439,7 +311,6 @@ void failTest_3(){
     // issuer 发送 issuerCre 给 platform
     // platform 用 platformCre 接收
     Platform_CRE platformCre;
-    // &platformCre = (Platform_CRE*)&issuerCre;
     G1_copy(&platformCre.A,&issuerCre.A);
     BIG_copy(platformCre.x,issuerCre.x);
     BIG_copy(platformCre.y2,issuerCre.y2);
@@ -452,10 +323,7 @@ void failTest_3(){
     printSK();
 
 // revoke in pRL
-    // Revoker_SK* sk_revoker = (Revoker_SK*)platformLeakSK_Test();
-    // cout << "Leak the sk: " << sk_revoker << endl;
-    // cout << "revoke in pRL.. " <<endl;
-    // revokerRevokePRL(gpk,pRL,sk_revoker);
+
     SK *sk=platformLeakSK_Test();
     Revoker_SK sk_revoker;
     G1_copy(&sk_revoker.A,&sk->A);
@@ -469,15 +337,6 @@ void failTest_3(){
     revokerRevokePRL(&gpk,pRL,&sk_revoker);
 
 // Sign
-    // cout << "Sign.." << endl;
-    // char m[] = "Test message to be signed";
-    // Platform_Sigma *platformSigma = new Platform_Sigma();
-    // platformSigma->sigma0 = new Platform_Sigma0();
-    // platformSigma->sigmai = new Platform_Sigmai();
-    // platformSigma->sigmai->cnt = sRL->cnt;
-    // platformSigma->sigmai->sigmai = new Platform_BK_SPK[sRL->cnt];
-
-    // platformSign(gpk, m, sRL, platformSigma);
 
     printf("Sign..\n");
     char m[] = "Test message to be signed";
@@ -487,7 +346,6 @@ void failTest_3(){
 
     printPlatformSigma(&platformSigma);
 
-    // TODO：传输格式要注意做适配和更改
     // platform 发送 platformSigma 给 verifier
     // verifier 用 verifierSigma 接收，之后需要添加上m
     Verifier_Sigma verifierSigma;
@@ -514,20 +372,11 @@ void failTest_3(){
 
 
 // Verify
-    // cout << "Verify.." << endl;
-    // Verifier_Sigma* verifierSigma = (Verifier_Sigma*)platformSigma;
-    // verifierVerify(gpk, m, pRL, verifierSigma->sigmai, verifierSigma->sigma0);
     printf("Verify..\n");
     if(verifierVerify(&gpk, m, pRL, &verifierSigma.sigmai, &verifierSigma.sigma0)) exit(0);
 }
 
-int failtest_main(){
-    // miracl *mip = get_mip();
-    // time_t seed;
-
-    // time(&seed);
-    // irand((long)seed);
-
+int main(){
 
 // fail_test1:改变消息内容
     failTest_1();
