@@ -9,7 +9,7 @@
 
 #ifdef RA_PAIRING_BLS12383
 #include "pair_BLS12383.h"
-#include "bls_BLS12383.h"
+// #include "bls_BLS12383.h"
 
 #define G1 ECP_BLS12383
 #define G2 ECP2_BLS12383

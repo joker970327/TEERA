@@ -376,7 +376,7 @@ void failTest_3(){
     if(verifierVerify(&gpk, m, pRL, &verifierSigma.sigmai, &verifierSigma.sigma0)) exit(0);
 }
 
-int main(){
+int failtest_main(){
 
 // fail_test1:改变消息内容
     failTest_1();

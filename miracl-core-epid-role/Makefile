@@ -7,17 +7,32 @@
 # Compiler
 CC = gcc
 
-CBLS12383_PATH = ../c_bls12383
+CBLS12383_PATH = ../miracl_core_base_lib
 
 # Compiler flags
 # CFLAGS = -Wall -O2 -I.
 CFLAGS = -Wall -O2 -I. -I$(CBLS12383_PATH)
 
 # Linker flags
-LDFLAGS = -L$(CBLS12383_PATH) -lcore 
+# LDFLAGS = -L$(CBLS12383_PATH) -lcore 
+LDFLAGS =
 
 # Source files
 SRCS += $(wildcard ./*.c)
+
+SRCS += $(CBLS12383_PATH)/big_384_58.c
+SRCS += $(CBLS12383_PATH)/fp_BLS12383.c
+SRCS += $(CBLS12383_PATH)/fp2_BLS12383.c
+SRCS += $(CBLS12383_PATH)/fp4_BLS12383.c
+SRCS += $(CBLS12383_PATH)/fp12_BLS12383.c
+SRCS += $(CBLS12383_PATH)/ecp_BLS12383.c
+SRCS += $(CBLS12383_PATH)/ecp2_BLS12383.c
+SRCS += $(CBLS12383_PATH)/pair_BLS12383.c
+SRCS += $(CBLS12383_PATH)/rom_field_BLS12383.c
+SRCS += $(CBLS12383_PATH)/rom_curve_BLS12383.c
+SRCS += $(CBLS12383_PATH)/hash.c
+SRCS += $(CBLS12383_PATH)/rand.c
+SRCS += $(CBLS12383_PATH)/oct.c
 
 # Object files
 OBJS = $(SRCS:.c=.o)
