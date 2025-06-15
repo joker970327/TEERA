@@ -64,6 +64,7 @@ void revokeManagerPreCom(GPK *gpk, Public_PRL *pPRL, Public_SRL *pSRL)
 int revokeManagerCheckPRL(Public_PRL *pRL, G3 *B, G3 *K){
     for(int i=0;i<pRL->cnt;i++){
         G1 K1;
+        // K≠B^fi
         pair_mult_G1(&K1, B, pRL->f[i]);
         if(G1_equals(&K1,K)){
             printf("pRL revoked!\n");
@@ -77,13 +78,18 @@ int revokeManagerCheckSRL(GPK *gpk, char *m, Revoker_Sigmai *sigmai, G3 *B, G3 *
     for(int i=0;i<sigmai->cnt;i++){
         G3 Ri,tmp_G3;
         Big tmp_Big;
+        // a)
+        // Ri=Bi^sf·Ki^(-c)
         pair_mult_G1(&Ri, &sigmai->sigmai[i].B, &sigmai->sigmai[i].sf);
         BIG_modneg(tmp_Big, sigmai->sigmai[i].c,gpk->p);
         pair_mult_G1(&tmp_G3,&sigmai->sigmai[i].K,tmp_Big);
         G1_add(&Ri, &tmp_G3);
 
+        // b)
         Big c;
         hash_SRLNode_epid(c,gpk->p,&gpk->g1,&gpk->g2,&gpk->g3,&gpk->h1,&gpk->h2,&gpk->w,B,K,&sigmai->sigmai[i].B,&sigmai->sigmai[i].K,&Ri,m);
+
+        // c)
         if(BIG_comp(c,sigmai->sigmai[i].c)){
             printf("sRL revoked!\n");
             return -1;
@@ -92,7 +98,9 @@ int revokeManagerCheckSRL(GPK *gpk, char *m, Revoker_Sigmai *sigmai, G3 *B, G3 *
     return 0;
 }
 
+// 5.Revoke -- 1) pRL
 void revokeManagerRevokePRL(GPK *gpk, Public_PRL *pPRL, Revoker_SK *sk){
+    // a) pairing验证 e(A,w·g2^x)=e(g1·h1^f·h2^y,g2)
     G2 wxg2,tmp_G2_1;
     G2_copy(&wxg2,&gpk->w);
     pair_mult_G2(&tmp_G2_1,&gpk->g2,sk->x);
@@ -116,6 +124,7 @@ void revokeManagerRevokePRL(GPK *gpk, Public_PRL *pPRL, Revoker_SK *sk){
         return;
     }
 
+    // b) 添加 f
     PRLNode *tmp = (PRLNode*)malloc(sizeof(PRLNode));
 
     BIG_copy(tmp->f,sk->f);
@@ -128,8 +137,13 @@ void revokeManagerRevokePRL(GPK *gpk, Public_PRL *pPRL, Revoker_SK *sk){
 
     setPRL(pPRL);
 }
+
+// 5.Revoke -- 2) sRL
 int revokeManagerRevokeSRL(GPK *gpk, Public_PRL *pPRL, Public_SRL *pSRL, char *m, Revoker_Sigma *sigma){
+    // b) 验证有效性
     if(revokeManagerVerify(gpk,m,pPRL,&sigma->sigmai,&sigma->sigma0))return -1;
+
+    // c) 添加 (B,K)
     BK *tmp = (BK*)malloc(sizeof(BK));
 
     G1_copy(&tmp->B,&sigma->sigma0.B);
@@ -147,13 +161,16 @@ int revokeManagerRevokeSRL(GPK *gpk, Public_PRL *pPRL, Public_SRL *pSRL, char *m
 
 int revokeManagerVerify(GPK *gpk, char *m, Public_PRL *pPRL, Revoker_Sigmai *sigmai, Revoker_Sigma0 *sigma0)
 {
+// 4.Verify -- 3) 
     G3 R1,tmp_G3;
     Big tmp_Big;
+    // R1=B^sf·K^(-c)
     pair_mult_G1(&R1, &sigma0->B, sigma0->sf);
     BIG_modneg(tmp_Big, sigma0->c,gpk->p);
     pair_mult_G1(&tmp_G3, &sigma0->K, tmp_Big);
     G1_add(&R1, &tmp_G3);
 
+    //R2=e(T,g2^(-sx)·w^(-c))·T2^sf·T3^sb·T4^sa·T1^c
     GT R2,tmp_GT_1, tmp_GT_2,tmp_GT_3,tmp_GT_4;
     G2 tmp_G2_1,tmp_G2_2;
     G1 tmp_G1;
@@ -172,6 +189,7 @@ int revokeManagerVerify(GPK *gpk, char *m, Public_PRL *pPRL, Revoker_Sigmai *sig
     GT_mul(&R2, &tmp_GT_4);
     GT_mul(&R2, &tmp_GT_1);
 
+// 4.Verify -- 4)
     Big c;
     hash_sigma_epid(c,gpk->p,&gpk->g1,&gpk->g2,&gpk->g3,&gpk->h1,&gpk->h2,&gpk->w,&sigma0->B,&sigma0->K,&sigma0->T,&R1,&R2,m);
 
@@ -182,7 +200,9 @@ int revokeManagerVerify(GPK *gpk, char *m, Public_PRL *pPRL, Revoker_Sigmai *sig
         return -2;
     }
 //检查pRL和sRL
+// 4.Verify -- 5)
     if(revokeManagerCheckPRL(pPRL, &sigma0->B, &sigma0->K))return -1;
+// 4.Verify -- 6)
     if(revokeManagerCheckSRL(gpk, m, sigmai, &sigma0->B, &sigma0->K))return -1;
 
     printf("Revoker verification succeeds! \n");
