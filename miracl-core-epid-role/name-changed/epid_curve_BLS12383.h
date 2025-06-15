@@ -132,16 +132,7 @@ void random_Big(Big b);
 void pair_mult_G1(G1* result, G1* a, Big b);
 void pair_mult_G2(G2* result, G2* a, Big b);
 void pairing(GT* gt, G2* g2, G1* g1);
-void multi_pairing(int n, GT* gt, G2* g2, G1* g1);
-// void hash_and_map(G1* w,char *ID);
-// void start_hash();
-// void finish_hash_to_group(Big hash);
-// void add_to_hash_GT_FP12(GT* v);
-// void add_to_hash_G1(G1* x);
-// void add_to_hash_G2(G2* x);
-// void add_to_hash_Big(Big b);
-// void add_to_hash_char(char* x);
-// void finish_hash_to_group(Big b);
+
 void pair_power_GT(GT* result, GT* a, Big b);
 bool member(GT* gt);
 
