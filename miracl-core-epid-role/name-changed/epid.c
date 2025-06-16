@@ -47,6 +47,8 @@ int main()
     // issuer 生成 Issuer_CRE
     Issuer_CRE issuerCre;
     issuerJoin_2(&gpk, &issuerCommC, &issuerCre);
+
+    // 2.Join -- 4) 
     // issuer 发送 issuerCre 给 signer
     // signer 用 signerCre 接收
     Platform_CRE signerCre;

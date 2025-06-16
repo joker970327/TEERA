@@ -5,7 +5,7 @@ Big isk;
 void issuerSetup(GPK *gpk){
 
     initiate();
-// TMP
+// 1.Setup
     order(gpk->p);
     random_G1_generator(&gpk->g1);
     random_G2_generator(&gpk->g2);
@@ -17,9 +17,10 @@ void issuerSetup(GPK *gpk){
 }
 
 void issuerJoin_2(GPK *gpk, Issuer_CommC *commC, Issuer_CRE* cre){
+// 2.Join -- 3)
+    // x,y''
     random_Big(cre->x);
     random_Big(cre->y2);
-
     // A=(g1*C*h2^y2)^(1/(x+isk))
     G1_copy(&cre->A,&gpk->g1);
 	G1_add(&cre->A,&commC->C);
@@ -33,6 +34,8 @@ void issuerJoin_2(GPK *gpk, Issuer_CommC *commC, Issuer_CRE* cre){
 	BIG_invmodp(tmp_Big_3,tmp_Big_2,gpk->p);
 	pair_mult_G1(&cre->A,&cre->A,tmp_Big_3);
 
+    // a)
+    // h1^sf·h2^sy'·C^c
     G1 poc;
     pair_mult_G1(&poc,&gpk->h1,commC->sf);
     pair_mult_G1(&tmp_G1_1,&gpk->h2,commC->sy1);
@@ -40,9 +43,11 @@ void issuerJoin_2(GPK *gpk, Issuer_CommC *commC, Issuer_CRE* cre){
     pair_mult_G1(&tmp_G1_1,&commC->C,commC->c);
     G1_add(&poc,&tmp_G1_1);
 
+    // b)
     Big cc;
     hash_comm_epid(cc,gpk->p,&gpk->g1,&gpk->g2,&gpk->g3,&gpk->h1,&gpk->h2,&gpk->w,&commC->C,&poc);
 
+    // c)
     if(BIG_comp(cc,commC->c)!=0){
         printf("comm verify failed!\n");
         return;
